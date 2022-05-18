@@ -3,11 +3,11 @@ package powchain
 import (
 	"context"
 	"encoding/binary"
+	"github.com/ethereum/go-ethereum"
 	"math/big"
 	"testing"
 	"time"
 
-	"github.com/ethereum/go-ethereum"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/prysmaticlabs/prysm/beacon-chain/cache/depositcache"
 	"github.com/prysmaticlabs/prysm/beacon-chain/core/feed"
@@ -327,7 +327,7 @@ func TestProcessETH2GenesisLog(t *testing.T) {
 	// is 2**14
 	for i := 0; i < depositsReqForChainStart; i++ {
 		data := deposits[i].Data
-		testAcc.TxOpts.Value = mock.Amount32Eth()
+		testAcc.TxOpts.Value = mock.Amount40kBoa()
 		testAcc.TxOpts.GasLimit = 1000000
 		_, err = testAcc.Contract.Deposit(testAcc.TxOpts, data.PublicKey, data.WithdrawalCredentials, data.Signature, roots[i])
 		require.NoError(t, err, "Could not deposit to deposit contract")
@@ -343,6 +343,8 @@ func TestProcessETH2GenesisLog(t *testing.T) {
 
 	logs, err := testAcc.Backend.FilterLogs(web3Service.ctx, query)
 	require.NoError(t, err, "Unable to retrieve logs")
+	t.Logf("start: %+v, logs: %+v\n",
+		depositsReqForChainStart, len(logs))
 	require.Equal(t, depositsReqForChainStart, len(logs))
 
 	// Set up our subscriber now to listen for the chain started event.
@@ -430,7 +432,7 @@ func TestProcessETH2GenesisLog_CorrectNumOfDeposits(t *testing.T) {
 	// is 2**14
 	for i := 0; i < totalNumOfDeposits; i++ {
 		data := deposits[i].Data
-		testAcc.TxOpts.Value = mock.Amount32Eth()
+		testAcc.TxOpts.Value = mock.Amount40kBoa()
 		testAcc.TxOpts.GasLimit = 1000000
 		_, err = testAcc.Contract.Deposit(testAcc.TxOpts, data.PublicKey, data.WithdrawalCredentials, data.Signature, depositRoots[i])
 		require.NoError(t, err, "Could not deposit to deposit contract")
@@ -527,7 +529,7 @@ func TestProcessETH2GenesisLog_LargePeriodOfNoLogs(t *testing.T) {
 	// is 2**14
 	for i := 0; i < totalNumOfDeposits; i++ {
 		data := deposits[i].Data
-		testAcc.TxOpts.Value = mock.Amount32Eth()
+		testAcc.TxOpts.Value = mock.Amount40kBoa()
 		testAcc.TxOpts.GasLimit = 1000000
 		_, err = testAcc.Contract.Deposit(testAcc.TxOpts, data.PublicKey, data.WithdrawalCredentials, data.Signature, depositRoots[i])
 		require.NoError(t, err, "Could not deposit to deposit contract")
