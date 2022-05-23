@@ -63,7 +63,7 @@ func BaseRewardPerIncrement(s state.ReadOnlyBeaconState, activeBalance uint64) (
 		return 0, errors.Errorf("Could not calculate seconds since Genesis for slot %d", s.Slot())
 	}
 	allocatedRewardsPerSecond := agora.AllocatedYearlyValidatorRewards(uint64(timeSinceGenesis)) / agora.YearOfSecs
-	epochAllocatedAgoraRewards := cfg.SecondsPerSlot * uint64(cfg.SlotsPerEpoch) * allocatedRewardsPerSecond
+	epochAllocatedAgoraRewards := cfg.GweiPerEth * cfg.SecondsPerSlot * uint64(cfg.SlotsPerEpoch) * allocatedRewardsPerSecond
 
 	// return the base reward per increment so base reward can be calculated as effective balance multiplied by this
 	return cfg.EffectiveBalanceIncrement * epochAllocatedAgoraRewards / activeBalance, nil
