@@ -131,7 +131,7 @@ func ApplySyncRewardsPenalties(ctx context.Context, s state.BeaconStateAltair, v
 	if err != nil {
 		return nil, err
 	}
-	proposerReward, participantReward, err := SyncRewards(activeBalance)
+	proposerReward, participantReward, err := SyncRewards(s, activeBalance)
 	if err != nil {
 		return nil, err
 	}
@@ -163,10 +163,10 @@ func ApplySyncRewardsPenalties(ctx context.Context, s state.BeaconStateAltair, v
 }
 
 // SyncRewards returns the proposer reward and the sync participant reward given the total active balance in state.
-func SyncRewards(activeBalance uint64) (proposerReward, participantReward uint64, err error) {
+func SyncRewards(s state.BeaconStateAltair, activeBalance uint64) (proposerReward, participantReward uint64, err error) {
 	cfg := params.BeaconConfig()
 	totalActiveIncrements := activeBalance / cfg.EffectiveBalanceIncrement
-	baseRewardPerInc, err := BaseRewardPerIncrement(activeBalance)
+	baseRewardPerInc, err := BaseRewardPerIncrement(s, activeBalance)
 	if err != nil {
 		return 0, 0, err
 	}

@@ -2,11 +2,11 @@ package altair
 
 import (
 	"github.com/pkg/errors"
+	"github.com/prysmaticlabs/prysm/agora"
 	"github.com/prysmaticlabs/prysm/beacon-chain/core/helpers"
 	"github.com/prysmaticlabs/prysm/beacon-chain/state"
 	"github.com/prysmaticlabs/prysm/config/params"
 	types "github.com/prysmaticlabs/prysm/consensus-types/primitives"
-	"github.com/prysmaticlabs/prysm/math"
 )
 
 // BaseReward takes state and validator index and calculate
@@ -39,7 +39,7 @@ func BaseRewardWithTotalBalance(s state.ReadOnlyBeaconState, index types.Validat
 	}
 	cfg := params.BeaconConfig()
 	increments := val.EffectiveBalance() / cfg.EffectiveBalanceIncrement
-	baseRewardPerInc, err := BaseRewardPerIncrement(totalBalance)
+	baseRewardPerInc, err := BaseRewardPerIncrement(s, totalBalance)
 	if err != nil {
 		return 0, err
 	}
@@ -48,13 +48,23 @@ func BaseRewardWithTotalBalance(s state.ReadOnlyBeaconState, index types.Validat
 
 // BaseRewardPerIncrement of the beacon state
 //
-// Spec code:
-// def get_base_reward_per_increment(state: BeaconState) -> Gwei:
-//    return Gwei(EFFECTIVE_BALANCE_INCREMENT * BASE_REWARD_FACTOR // integer_squareroot(get_total_active_balance(state)))
-func BaseRewardPerIncrement(activeBalance uint64) (uint64, error) {
+// modified for Agora white paper:
+//  return the increment so that for perfect behavior of all validators
+//  the total allocation would be rewarded to the active validators
+func BaseRewardPerIncrement(s state.ReadOnlyBeaconState, activeBalance uint64) (uint64, error) {
 	if activeBalance == 0 {
 		return 0, errors.New("active balance can't be 0")
 	}
 	cfg := params.BeaconConfig()
-	return cfg.EffectiveBalanceIncrement * cfg.BaseRewardFactor / math.IntegerSquareRoot(activeBalance), nil
+
+	// Calculate the Agora allocated validator rewards for this Epoch based on the year
+	timeSinceGenesis, err := s.Slot().SafeMul(cfg.SecondsPerSlot)
+	if err != nil {
+		return 0, errors.Errorf("Could not calculate seconds since Genesis for slot %d", s.Slot())
+	}
+	allocatedRewardsPerSecond := agora.AllocatedYearlyValidatorRewards(uint64(timeSinceGenesis)) / agora.YearOfSecs
+	epochAllocatedAgoraRewards := cfg.SecondsPerSlot * uint64(cfg.SlotsPerEpoch) * allocatedRewardsPerSecond
+
+	// return the base reward per increment so base reward can be calculated as effective balance multiplied by this
+	return cfg.EffectiveBalanceIncrement * epochAllocatedAgoraRewards / activeBalance, nil
 }

@@ -257,6 +257,7 @@ func Test_ApplySyncRewardsPenalties(t *testing.T) {
 }
 
 func Test_SyncRewards(t *testing.T) {
+	beaconState, _ := util.DeterministicGenesisStateAltair(t, params.BeaconConfig().MaxValidatorsPerCommittee)
 	tests := []struct {
 		name                  string
 		activeBalance         uint64
@@ -309,7 +310,7 @@ func Test_SyncRewards(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			proposerReward, participarntReward, err := altair.SyncRewards(tt.activeBalance)
+			proposerReward, participarntReward, err := altair.SyncRewards(beaconState, tt.activeBalance)
 			if (err != nil) && (tt.errString != "") {
 				require.ErrorContains(t, tt.errString, err)
 				return

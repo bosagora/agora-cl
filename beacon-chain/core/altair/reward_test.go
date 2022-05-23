@@ -137,6 +137,7 @@ func Test_BaseRewardWithTotalBalance(t *testing.T) {
 }
 
 func Test_BaseRewardPerIncrement(t *testing.T) {
+	s, _ := util.DeterministicGenesisStateAltair(t, 1)
 	tests := []struct {
 		name          string
 		activeBalance uint64
@@ -182,7 +183,7 @@ func Test_BaseRewardPerIncrement(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := altair.BaseRewardPerIncrement(tt.activeBalance)
+			got, err := altair.BaseRewardPerIncrement(s, tt.activeBalance)
 			if (err != nil) && (tt.errString != "") {
 				require.ErrorContains(t, tt.errString, err)
 				return
