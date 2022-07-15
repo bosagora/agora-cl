@@ -92,6 +92,10 @@ type BeaconChainConfig struct {
 	MinSlashingPenaltyQuotient     uint64 `yaml:"MIN_SLASHING_PENALTY_QUOTIENT" spec:"true"`    // MinSlashingPenaltyQuotient is used to calculate the minimum penalty to prevent DoS attacks.
 	ProportionalSlashingMultiplier uint64 `yaml:"PROPORTIONAL_SLASHING_MULTIPLIER" spec:"true"` // ProportionalSlashingMultiplier is used as a multiplier on slashed penalties.
 
+	RewardAdjustmentMultiplier         uint64 `yaml:"REWARD_ADJUSTMENT_MULTIPLIER" spec:"true"`     // RewardAdjustmentMultiplier is used together with RewardAdjustmentDivisor to calculate the adjusted validator rewards
+	RewardAdjustmentDivisor            uint64 `yaml:"REWARD_ADJUSTMENT_DIVISOR" spec:"true"`        // RewardAdjustmentDivisor is used together with RewardAdjustmentMultiplier to calculate the adjusted validator rewards
+	RewardAdjustmentPeriod             uint64 `yaml:"REWARD_ADJUSTMENT_PERIOD" spec:"true"`         // RewardAdjustmentPeriod is the number of epochs between the applied adjustments
+
 	// Max operations per block constants.
 	MaxProposerSlashings uint64 `yaml:"MAX_PROPOSER_SLASHINGS" spec:"true"` // MaxProposerSlashings defines the maximum number of slashings of proposers possible in a block.
 	MaxAttesterSlashings uint64 `yaml:"MAX_ATTESTER_SLASHINGS" spec:"true"` // MaxAttesterSlashings defines the maximum number of casper FFG slashings possible in a block.

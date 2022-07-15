@@ -3,6 +3,7 @@ package altair
 import (
 	"github.com/pkg/errors"
 	"github.com/prysmaticlabs/prysm/beacon-chain/core/helpers"
+	"github.com/prysmaticlabs/prysm/beacon-chain/core/time"
 	"github.com/prysmaticlabs/prysm/beacon-chain/state"
 	"github.com/prysmaticlabs/prysm/config/params"
 	types "github.com/prysmaticlabs/prysm/consensus-types/primitives"
@@ -39,7 +40,7 @@ func BaseRewardWithTotalBalance(s state.ReadOnlyBeaconState, index types.Validat
 	}
 	cfg := params.BeaconConfig()
 	increments := val.EffectiveBalance() / cfg.EffectiveBalanceIncrement
-	baseRewardPerInc, err := BaseRewardPerIncrement(totalBalance)
+	baseRewardPerInc, err := BaseRewardPerIncrement(s, totalBalance)
 	if err != nil {
 		return 0, err
 	}
@@ -51,10 +52,16 @@ func BaseRewardWithTotalBalance(s state.ReadOnlyBeaconState, index types.Validat
 // Spec code:
 // def get_base_reward_per_increment(state: BeaconState) -> Gwei:
 //    return Gwei(EFFECTIVE_BALANCE_INCREMENT * BASE_REWARD_FACTOR // integer_squareroot(get_total_active_balance(state)))
-func BaseRewardPerIncrement(activeBalance uint64) (uint64, error) {
+func BaseRewardPerIncrement(s state.ReadOnlyBeaconState, activeBalance uint64) (uint64, error) {
 	if activeBalance == 0 {
 		return 0, errors.New("active balance can't be 0")
 	}
 	cfg := params.BeaconConfig()
-	return cfg.EffectiveBalanceIncrement * cfg.BaseRewardFactor / math.IntegerSquareRoot(activeBalance), nil
+	brpi := cfg.EffectiveBalanceIncrement * cfg.BaseRewardFactor / math.IntegerSquareRoot(activeBalance)
+
+	for i := uint64(0); i < uint64(time.CurrentEpoch(s).Div(cfg.RewardAdjustmentPeriod)); i++ {
+		brpi = (brpi * cfg.RewardAdjustmentMultiplier) / cfg.RewardAdjustmentDivisor
+	}
+
+	return brpi, nil
 }

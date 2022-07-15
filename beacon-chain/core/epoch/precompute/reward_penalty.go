@@ -74,12 +74,12 @@ func AttestationsDelta(state state.ReadOnlyBeaconState, pBal *Balance, vp []*Val
 
 	sqrtActiveCurrentEpoch := math.IntegerSquareRoot(pBal.ActiveCurrentEpoch)
 	for i, v := range vp {
-		rewards[i], penalties[i] = attestationDelta(pBal, sqrtActiveCurrentEpoch, v, prevEpoch, finalizedEpoch)
+		rewards[i], penalties[i] = attestationDelta(pBal, sqrtActiveCurrentEpoch, v, prevEpoch, finalizedEpoch, state)
 	}
 	return rewards, penalties, nil
 }
 
-func attestationDelta(pBal *Balance, sqrtActiveCurrentEpoch uint64, v *Validator, prevEpoch, finalizedEpoch types.Epoch) (uint64, uint64) {
+func attestationDelta(pBal *Balance, sqrtActiveCurrentEpoch uint64, v *Validator, prevEpoch, finalizedEpoch types.Epoch, state state.ReadOnlyBeaconState) (uint64, uint64) {
 	if !EligibleForRewards(v) || pBal.ActiveCurrentEpoch == 0 {
 		return 0, 0
 	}
@@ -88,6 +88,11 @@ func attestationDelta(pBal *Balance, sqrtActiveCurrentEpoch uint64, v *Validator
 	effectiveBalanceIncrement := params.BeaconConfig().EffectiveBalanceIncrement
 	vb := v.CurrentEpochEffectiveBalance
 	br := vb * params.BeaconConfig().BaseRewardFactor / sqrtActiveCurrentEpoch / baseRewardsPerEpoch
+
+	for i := uint64(0); i < uint64(time.CurrentEpoch(state).Div(params.BeaconConfig().RewardAdjustmentPeriod)); i++ {
+		br = (br * params.BeaconConfig().RewardAdjustmentMultiplier) / params.BeaconConfig().RewardAdjustmentDivisor
+	}
+
 	r, p := uint64(0), uint64(0)
 	currentEpochBalance := pBal.ActiveCurrentEpoch / effectiveBalanceIncrement
 
@@ -179,6 +184,11 @@ func ProposersDelta(state state.ReadOnlyBeaconState, pBal *Balance, vp []*Valida
 		if v.IsPrevEpochAttester && !v.IsSlashed {
 			vBalance := v.CurrentEpochEffectiveBalance
 			baseReward := vBalance * baseRewardFactor / balanceSqrt / baseRewardsPerEpoch
+
+			for i := uint64(0); i < uint64(time.CurrentEpoch(state).Div(params.BeaconConfig().RewardAdjustmentPeriod)); i++ {
+				baseReward = (baseReward * params.BeaconConfig().RewardAdjustmentMultiplier) / params.BeaconConfig().RewardAdjustmentDivisor
+			}
+
 			proposerReward := baseReward / proposerRewardQuotient
 			rewards[v.ProposerIndex] += proposerReward
 		}
