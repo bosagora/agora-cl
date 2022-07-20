@@ -315,7 +315,7 @@ func TestProposerDeltaPrecompute_HappyCase(t *testing.T) {
 	require.NoError(t, err)
 
 	baseReward := v[0].CurrentEpochEffectiveBalance * params.BeaconConfig().BaseRewardFactor /
-		math.IntegerSquareRoot(b.ActiveCurrentEpoch) / params.BeaconConfig().BaseRewardsPerEpoch
+		b.ActiveCurrentEpoch / params.BeaconConfig().BaseRewardsPerEpoch
 	proposerReward := baseReward / params.BeaconConfig().ProposerRewardQuotient
 
 	assert.Equal(t, proposerReward, r[proposerIndex], "Unexpected proposer reward")
@@ -373,6 +373,6 @@ func baseReward(state state.ReadOnlyBeaconState, index types.ValidatorIndex) (ui
 	}
 	effectiveBalance := val.EffectiveBalance()
 	baseReward := effectiveBalance * params.BeaconConfig().BaseRewardFactor /
-		math.IntegerSquareRoot(totalBalance) / params.BeaconConfig().BaseRewardsPerEpoch
+		totalBalance / params.BeaconConfig().BaseRewardsPerEpoch
 	return baseReward, nil
 }

@@ -264,7 +264,7 @@ func AttestationsDelta(beaconState state.BeaconState, bal *precompute.Balance, v
 	finalizedEpoch := beaconState.FinalizedCheckpointEpoch()
 	increment := cfg.EffectiveBalanceIncrement
 	factor := cfg.BaseRewardFactor
-	baseRewardMultiplier := increment * factor / math.IntegerSquareRoot(bal.ActiveCurrentEpoch)
+	baseRewardMultiplier := increment * factor / bal.ActiveCurrentEpoch
 
 	for i := uint64(0); i < uint64(time.CurrentEpoch(beaconState).Div(cfg.RewardAdjustmentPeriod)); i++ {
 		baseRewardMultiplier = (baseRewardMultiplier * cfg.RewardAdjustmentMultiplier) / cfg.RewardAdjustmentDivisor

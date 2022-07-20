@@ -7,7 +7,6 @@ import (
 	"github.com/prysmaticlabs/prysm/beacon-chain/state"
 	"github.com/prysmaticlabs/prysm/config/params"
 	types "github.com/prysmaticlabs/prysm/consensus-types/primitives"
-	"github.com/prysmaticlabs/prysm/math"
 )
 
 // BaseReward takes state and validator index and calculate
@@ -57,7 +56,7 @@ func BaseRewardPerIncrement(s state.ReadOnlyBeaconState, activeBalance uint64) (
 		return 0, errors.New("active balance can't be 0")
 	}
 	cfg := params.BeaconConfig()
-	brpi := cfg.EffectiveBalanceIncrement * cfg.BaseRewardFactor / math.IntegerSquareRoot(activeBalance)
+	brpi := cfg.EffectiveBalanceIncrement * cfg.BaseRewardFactor / activeBalance
 
 	for i := uint64(0); i < uint64(time.CurrentEpoch(s).Div(cfg.RewardAdjustmentPeriod)); i++ {
 		brpi = (brpi * cfg.RewardAdjustmentMultiplier) / cfg.RewardAdjustmentDivisor
