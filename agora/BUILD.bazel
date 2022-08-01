@@ -3,9 +3,10 @@ load("@prysm//tools/go:def.bzl", "go_library", "go_test")
 go_library(
     name = "go_default_library",
     srcs = ["block_rewards.go"],
-    importpath = "github.com/prysmaticlabs/prysm/agora",
+    importpath = "github.com/prysmaticlabs/prysm/v4/agora",
     visibility = ["//visibility:public"],
     deps = [
+        "@com_github_pkg_errors//:go_default_library",
     ],
 )
 
