@@ -2,6 +2,7 @@ package agora
 
 import (
 	"math/big"
+	"github.com/pkg/errors"
 )
 
 // Global constants (start with a capital letter)
@@ -45,7 +46,10 @@ func AllocatedValidatorRewardsPerEpoch(secondsSinceGenesis uint64, cfg RewardCon
 	return cfg.SecondsPerSlot * cfg.SlotsPerEpoch * allocatedRewardsPerSecond
 }
 
-func ValidatorRewardPerEpoch(secondsSinceGenesis uint64, totalBalance uint64, effectiveBalance uint64, cfg RewardConfig) uint64 {
+func ValidatorRewardPerEpoch(secondsSinceGenesis uint64, totalBalance uint64, effectiveBalance uint64, cfg RewardConfig) (uint64, error) {
+	if (totalBalance <= 0) {
+		return 0, errors.New("active balance can't be 0")
+	}
 	allocatedValidatorRewardsPerEpoch := new(big.Int).SetUint64(AllocatedValidatorRewardsPerEpoch(secondsSinceGenesis, cfg))
 	increments := new(big.Int).SetUint64(effectiveBalance / cfg.EffectiveBalanceIncrement)
 	bigTotalBalance := new(big.Int).SetUint64(totalBalance)
@@ -55,5 +59,5 @@ func ValidatorRewardPerEpoch(secondsSinceGenesis uint64, totalBalance uint64, ef
 	bigEffectiveBalance.Mul(bigEffectiveBalance, allocatedValidatorRewardsPerEpoch)
 	bigEffectiveBalance.Div(bigEffectiveBalance, bigTotalBalance)
 
-	return bigEffectiveBalance.Uint64()
+	return bigEffectiveBalance.Uint64(), nil
 }
