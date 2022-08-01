@@ -247,13 +247,13 @@ func Test_ApplySyncRewardsPenalties(t *testing.T) {
 		[]types.ValidatorIndex{2, 3}) // didn't vote
 	require.NoError(t, err)
 	balances := beaconState.Balances()
-	require.Equal(t, uint64(32000000988), balances[0])
+	require.Equal(t, uint64(32003955078), balances[0])
 	require.Equal(t, balances[0], balances[1])
-	require.Equal(t, uint64(31999999012), balances[2])
+	require.Equal(t, uint64(31996044922), balances[2])
 	require.Equal(t, balances[2], balances[3])
 	proposerIndex, err := helpers.BeaconProposerIndex(context.Background(), beaconState)
 	require.NoError(t, err)
-	require.Equal(t, uint64(32000000282), balances[proposerIndex])
+	require.Equal(t, uint64(32001130022), balances[proposerIndex])
 }
 
 func Test_SyncRewards(t *testing.T) {
@@ -281,35 +281,35 @@ func Test_SyncRewards(t *testing.T) {
 		{
 			name:                  "active balance is 1eth",
 			activeBalance:         params.BeaconConfig().EffectiveBalanceIncrement,
-			wantProposerReward:    0,
-			wantParticipantReward: 3,
+			wantProposerReward:    565011,
+			wantParticipantReward: 3955078,
 			errString:             "",
 		},
 		{
 			name:                  "active balance is 32eth",
 			activeBalance:         params.BeaconConfig().MaxEffectiveBalance,
-			wantProposerReward:    3,
-			wantParticipantReward: 21,
+			wantProposerReward:    565011,
+			wantParticipantReward: 3955078,
 			errString:             "",
 		},
 		{
 			name:                  "active balance is 32eth * 1m validators",
 			activeBalance:         params.BeaconConfig().MaxEffectiveBalance * 1e9,
-			wantProposerReward:    62780,
-			wantParticipantReward: 439463,
+			wantProposerReward:    561331,
+			wantParticipantReward: 3929319,
 			errString:             "",
 		},
 		{
 			name:                  "active balance is max uint64",
 			activeBalance:         math.MaxUint64,
-			wantProposerReward:    70368,
-			wantParticipantReward: 492581,
+			wantProposerReward:    562949,
+			wantParticipantReward: 3940649,
 			errString:             "",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			proposerReward, participarntReward, err := altair.SyncRewards(tt.activeBalance)
+			proposerReward, participarntReward, err := altair.SyncRewards(0, tt.activeBalance)
 			if (err != nil) && (tt.errString != "") {
 				require.ErrorContains(t, tt.errString, err)
 				return

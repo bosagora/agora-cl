@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 
+	"github.com/prysmaticlabs/prysm/agora"
 	"github.com/prysmaticlabs/prysm/beacon-chain/core/helpers"
 	"github.com/prysmaticlabs/prysm/beacon-chain/core/signing"
 	p2pType "github.com/prysmaticlabs/prysm/beacon-chain/p2p/types"
@@ -131,7 +132,13 @@ func ApplySyncRewardsPenalties(ctx context.Context, s state.BeaconStateAltair, v
 	if err != nil {
 		return nil, err
 	}
-	proposerReward, participantReward, err := SyncRewards(activeBalance)
+
+	timeSinceGenesis, err := s.Slot().SafeMul(params.BeaconConfig().SecondsPerSlot)
+	if err != nil {
+		return nil, err
+	}
+
+	proposerReward, participantReward, err := SyncRewards(uint64(timeSinceGenesis), activeBalance)
 	if err != nil {
 		return nil, err
 	}
@@ -163,11 +170,18 @@ func ApplySyncRewardsPenalties(ctx context.Context, s state.BeaconStateAltair, v
 }
 
 // SyncRewards returns the proposer reward and the sync participant reward given the total active balance in state.
-func SyncRewards(activeBalance uint64) (proposerReward, participantReward uint64, err error) {
+func SyncRewards(secondsSinceGenesis uint64, activeBalance uint64) (proposerReward, participantReward uint64, err error) {
 	cfg := params.BeaconConfig()
 	totalActiveIncrements := activeBalance / cfg.EffectiveBalanceIncrement
-	baseRewardPerInc, err := BaseRewardPerIncrement(activeBalance)
-	if err != nil {
+
+	agoraConfig := agora.RewardConfig {
+		SlotsPerEpoch: uint64(cfg.SlotsPerEpoch),
+		SecondsPerSlot: cfg.SecondsPerSlot,
+		GweiPerBoa: cfg.GweiPerEth,
+		EffectiveBalanceIncrement: cfg.EffectiveBalanceIncrement,
+	}
+	baseRewardPerInc, err := agora.ValidatorRewardPerEpoch(secondsSinceGenesis, activeBalance, cfg.EffectiveBalanceIncrement, agoraConfig)
+	if (err != nil) {
 		return 0, 0, err
 	}
 	totalBaseRewards := baseRewardPerInc * totalActiveIncrements
