@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
+	"github.com/prysmaticlabs/prysm/agora"
 	"github.com/prysmaticlabs/prysm/beacon-chain/core/epoch/precompute"
 	"github.com/prysmaticlabs/prysm/beacon-chain/core/helpers"
 	"github.com/prysmaticlabs/prysm/beacon-chain/core/time"
@@ -262,10 +263,11 @@ func AttestationsDelta(beaconState state.BeaconState, bal *precompute.Balance, v
 	cfg := params.BeaconConfig()
 	prevEpoch := time.PrevEpoch(beaconState)
 	finalizedEpoch := beaconState.FinalizedCheckpointEpoch()
-	increment := cfg.EffectiveBalanceIncrement
-	factor := cfg.BaseRewardFactor
-	baseRewardMultiplier := increment * factor / math.IntegerSquareRoot(bal.ActiveCurrentEpoch)
 	leak := helpers.IsInInactivityLeak(prevEpoch, finalizedEpoch)
+	timeSinceGenesis, err := beaconState.Slot().SafeMul(params.BeaconConfig().SecondsPerSlot)
+	if err != nil {
+		return nil, nil, err
+	}
 
 	// Modified in Altair and Bellatrix.
 	var inactivityDenominator uint64
@@ -280,7 +282,7 @@ func AttestationsDelta(beaconState state.BeaconState, bal *precompute.Balance, v
 	}
 
 	for i, v := range vals {
-		rewards[i], penalties[i], err = attestationDelta(bal, v, baseRewardMultiplier, inactivityDenominator, leak)
+		rewards[i], penalties[i], err = attestationDelta(bal, v, uint64(timeSinceGenesis), inactivityDenominator, leak)
 		if err != nil {
 			return nil, nil, err
 		}
@@ -292,7 +294,7 @@ func AttestationsDelta(beaconState state.BeaconState, bal *precompute.Balance, v
 func attestationDelta(
 	bal *precompute.Balance,
 	val *precompute.Validator,
-	baseRewardMultiplier, inactivityDenominator uint64,
+	secondsSinceGenesis, inactivityDenominator uint64,
 	inactivityLeak bool) (reward, penalty uint64, err error) {
 	eligible := val.IsActivePrevEpoch || (val.IsSlashed && !val.IsWithdrawableCurrentEpoch)
 	// Per spec `ActiveCurrentEpoch` can't be 0 to process attestation delta.
@@ -303,7 +305,16 @@ func attestationDelta(
 	cfg := params.BeaconConfig()
 	increment := cfg.EffectiveBalanceIncrement
 	effectiveBalance := val.CurrentEpochEffectiveBalance
-	baseReward := (effectiveBalance / increment) * baseRewardMultiplier
+
+	agoraConfig := agora.RewardConfig {
+		SlotsPerEpoch: uint64(cfg.SlotsPerEpoch),
+		SecondsPerSlot: cfg.SecondsPerSlot,
+		GweiPerBoa: cfg.GweiPerEth,
+		EffectiveBalanceIncrement: cfg.EffectiveBalanceIncrement,
+	}
+
+	// safe to ignore err, bal.ActiveCurrentEpoch is checked to be non-zero
+	baseReward, err := agora.ValidatorRewardPerEpoch(secondsSinceGenesis, bal.ActiveCurrentEpoch, cfg.EffectiveBalanceIncrement, agoraConfig)
 	activeIncrement := bal.ActiveCurrentEpoch / increment
 
 	weightDenominator := cfg.WeightDenominator
