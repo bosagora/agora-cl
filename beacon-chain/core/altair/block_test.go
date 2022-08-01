@@ -312,35 +312,35 @@ func Test_SyncRewards(t *testing.T) {
 		{
 			name:                  "active balance is 1eth",
 			activeBalance:         params.BeaconConfig().EffectiveBalanceIncrement,
-			wantProposerReward:    0,
-			wantParticipantReward: 3,
+			wantProposerReward:    565011,
+			wantParticipantReward: 3955078,
 			errString:             "",
 		},
 		{
 			name:                  "active balance is 32eth",
 			activeBalance:         params.BeaconConfig().MaxEffectiveBalance,
-			wantProposerReward:    3,
-			wantParticipantReward: 21,
+			wantProposerReward:    565011,
+			wantParticipantReward: 3955078,
 			errString:             "",
 		},
 		{
 			name:                  "active balance is 32eth * 1m validators",
 			activeBalance:         params.BeaconConfig().MaxEffectiveBalance * 1e9,
-			wantProposerReward:    62780,
-			wantParticipantReward: 439463,
+			wantProposerReward:    561331,
+			wantParticipantReward: 3929319,
 			errString:             "",
 		},
 		{
 			name:                  "active balance is max uint64",
 			activeBalance:         math.MaxUint64,
-			wantProposerReward:    70368,
-			wantParticipantReward: 492581,
+			wantProposerReward:    562949,
+			wantParticipantReward: 3940649,
 			errString:             "",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			proposerReward, participantReward, err := altair.SyncRewards(tt.activeBalance)
+			proposerReward, participantReward, err := altair.SyncRewards(0, tt.activeBalance)
 			if (err != nil) && (tt.errString != "") {
 				require.ErrorContains(t, tt.errString, err)
 				return

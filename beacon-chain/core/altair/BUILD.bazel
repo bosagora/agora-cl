@@ -16,6 +16,7 @@ go_library(
     importpath = "github.com/prysmaticlabs/prysm/v4/beacon-chain/core/altair",
     visibility = ["//visibility:public"],
     deps = [
+        "//agora:go_default_library",
         "//beacon-chain/core/blocks:go_default_library",
         "//beacon-chain/core/epoch:go_default_library",
         "//beacon-chain/core/epoch/precompute:go_default_library",
@@ -60,6 +61,7 @@ go_test(
     ],
     embed = [":go_default_library"],
     deps = [
+        "//agora:go_default_library",
         "//beacon-chain/core/epoch:go_default_library",
         "//beacon-chain/core/epoch/precompute:go_default_library",
         "//beacon-chain/core/helpers:go_default_library",
