@@ -3,8 +3,8 @@ package altair
 import (
 	"context"
 
-	"github.com/prysmaticlabs/prysm/v4/agora"
 	"github.com/pkg/errors"
+	"github.com/prysmaticlabs/prysm/v4/agora"
 	"github.com/prysmaticlabs/prysm/v4/beacon-chain/core/helpers"
 	"github.com/prysmaticlabs/prysm/v4/beacon-chain/core/signing"
 	p2pType "github.com/prysmaticlabs/prysm/v4/beacon-chain/p2p/types"
@@ -158,12 +158,7 @@ func SyncRewards(secondsSinceGenesis uint64, activeBalance uint64) (proposerRewa
 	cfg := params.BeaconConfig()
 	totalActiveIncrements := activeBalance / cfg.EffectiveBalanceIncrement
 
-	agoraConfig := agora.RewardConfig {
-		SlotsPerEpoch: uint64(cfg.SlotsPerEpoch),
-		SecondsPerSlot: cfg.SecondsPerSlot,
-		GweiPerBoa: cfg.GweiPerEth,
-		EffectiveBalanceIncrement: cfg.EffectiveBalanceIncrement,
-	}
+	agoraConfig := agora.MakeAgoraRewardConfig(cfg)
 	baseRewardPerInc, err := agora.ValidatorRewardPerEpoch(secondsSinceGenesis, activeBalance, cfg.EffectiveBalanceIncrement, agoraConfig)
 	if (err != nil) {
 		return 0, 0, err
