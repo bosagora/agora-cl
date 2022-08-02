@@ -1,8 +1,10 @@
 package agora
 
 import (
-	"math/big"
 	"github.com/pkg/errors"
+	"math/big"
+
+	"github.com/prysmaticlabs/prysm/v4/config/params"
 )
 
 // Global constants (start with a capital letter)
@@ -15,18 +17,18 @@ const (
 	firstYearValRewards uint64 = 27 * (YearOfSecs / 5)
 )
 
-type RewardConfig struct
-{
-	SlotsPerEpoch uint64
-	SecondsPerSlot uint64
-	GweiPerBoa uint64
+type RewardConfig struct {
+	SlotsPerEpoch             uint64
+	SecondsPerSlot            uint64
+	GweiPerBoa                uint64
 	EffectiveBalanceIncrement uint64
 }
 
 // Agora rewards as defined in the white paper (in Gwei)
 //
 // Allocated Validator rewards are 27 coins per 5 seconds for first year
-//   then reduced by 6.31% every year
+//
+//	then reduced by 6.31% every year
 func AllocatedYearlyValidatorRewards(secondsSinceGenesis uint64, GweiPerBoa uint64) uint64 {
 	yearsSinceGenesis := secondsSinceGenesis / YearOfSecs
 
@@ -47,7 +49,7 @@ func AllocatedValidatorRewardsPerEpoch(secondsSinceGenesis uint64, cfg RewardCon
 }
 
 func ValidatorRewardPerEpoch(secondsSinceGenesis uint64, totalBalance uint64, effectiveBalance uint64, cfg RewardConfig) (uint64, error) {
-	if (totalBalance <= 0) {
+	if totalBalance <= 0 {
 		return 0, errors.New("active balance can't be 0")
 	}
 	allocatedValidatorRewardsPerEpoch := new(big.Int).SetUint64(AllocatedValidatorRewardsPerEpoch(secondsSinceGenesis, cfg))
@@ -60,4 +62,14 @@ func ValidatorRewardPerEpoch(secondsSinceGenesis uint64, totalBalance uint64, ef
 	bigEffectiveBalance.Div(bigEffectiveBalance, bigTotalBalance)
 
 	return bigEffectiveBalance.Uint64(), nil
+}
+
+func MakeAgoraRewardConfig(beaconCfg *params.BeaconChainConfig) RewardConfig {
+	agoraConfig := RewardConfig{
+		SlotsPerEpoch:             uint64(beaconCfg.SlotsPerEpoch),
+		SecondsPerSlot:            beaconCfg.SecondsPerSlot,
+		GweiPerBoa:                beaconCfg.GweiPerEth,
+		EffectiveBalanceIncrement: beaconCfg.EffectiveBalanceIncrement,
+	}
+	return agoraConfig
 }
