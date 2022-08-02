@@ -174,12 +174,7 @@ func SyncRewards(secondsSinceGenesis uint64, activeBalance uint64) (proposerRewa
 	cfg := params.BeaconConfig()
 	totalActiveIncrements := activeBalance / cfg.EffectiveBalanceIncrement
 
-	agoraConfig := agora.RewardConfig {
-		SlotsPerEpoch: uint64(cfg.SlotsPerEpoch),
-		SecondsPerSlot: cfg.SecondsPerSlot,
-		GweiPerBoa: cfg.GweiPerEth,
-		EffectiveBalanceIncrement: cfg.EffectiveBalanceIncrement,
-	}
+	agoraConfig := agora.MakeAgoraRewardConfig(cfg)
 	baseRewardPerInc, err := agora.ValidatorRewardPerEpoch(secondsSinceGenesis, activeBalance, cfg.EffectiveBalanceIncrement, agoraConfig)
 	if (err != nil) {
 		return 0, 0, err
