@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	"github.com/pkg/errors"
+	"github.com/prysmaticlabs/prysm/v4/agora"
 	"github.com/prysmaticlabs/prysm/v4/beacon-chain/core/blocks"
 	"github.com/prysmaticlabs/prysm/v4/beacon-chain/core/helpers"
 	"github.com/prysmaticlabs/prysm/v4/beacon-chain/core/time"
@@ -175,7 +176,19 @@ func EpochParticipation(beaconState state.BeaconState, indices []uint64, epochPa
 		if index >= uint64(len(epochParticipation)) {
 			return 0, nil, fmt.Errorf("index %d exceeds participation length %d", index, len(epochParticipation))
 		}
-		br, err := BaseRewardWithTotalBalance(beaconState, primitives.ValidatorIndex(index), totalBalance)
+
+		timeSinceGenesis, err := beaconState.Slot().SafeMul(cfg.SecondsPerSlot)
+		if err != nil {
+			return 0, nil, err
+		}
+
+		val, err := beaconState.ValidatorAtIndexReadOnly(primitives.ValidatorIndex(index))
+		if err != nil {
+			return 0, nil, err
+		}
+
+		agoraConfig := agora.MakeAgoraRewardConfig(cfg)
+		br, err := agora.ValidatorRewardPerEpoch(uint64(timeSinceGenesis), totalBalance, val.EffectiveBalance(), agoraConfig)
 		if err != nil {
 			return 0, nil, err
 		}
