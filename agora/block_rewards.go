@@ -3,6 +3,8 @@ package agora
 import (
 	"math/big"
 	"github.com/pkg/errors"
+
+	"github.com/prysmaticlabs/prysm/config/params"
 )
 
 // Global constants (start with a capital letter)
@@ -60,4 +62,14 @@ func ValidatorRewardPerEpoch(secondsSinceGenesis uint64, totalBalance uint64, ef
 	bigEffectiveBalance.Div(bigEffectiveBalance, bigTotalBalance)
 
 	return bigEffectiveBalance.Uint64(), nil
+}
+
+func MakeAgoraRewardConfig (beaconCfg *params.BeaconChainConfig) RewardConfig {
+	agoraConfig := RewardConfig {
+		SlotsPerEpoch: uint64(beaconCfg.SlotsPerEpoch),
+		SecondsPerSlot: beaconCfg.SecondsPerSlot,
+		GweiPerBoa: beaconCfg.GweiPerEth,
+		EffectiveBalanceIncrement: beaconCfg.EffectiveBalanceIncrement,
+	}
+	return agoraConfig
 }
