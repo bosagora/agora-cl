@@ -469,7 +469,7 @@ func TestSetParticipationAndRewardProposer(t *testing.T) {
 				headFlagIndex:   false,
 			},
 			wantedParticipation: []byte{3, 3, 3, 3, 0, 0, 0, 0},
-			wantedBalance:       32000090342,
+			wantedBalance:       32361607142,
 		},
 		{name: "all participated with some flags",
 			indices: []uint64{0, 1, 2, 3, 4, 5, 6, 7}, epochParticipation: []byte{0, 0, 0, 0, 0, 0, 0, 0}, participatedFlags: map[uint8]bool{
@@ -478,7 +478,7 @@ func TestSetParticipationAndRewardProposer(t *testing.T) {
 				headFlagIndex:   false,
 			},
 			wantedParticipation: []byte{1, 1, 1, 1, 1, 1, 1, 1},
-			wantedBalance:       32000063240,
+			wantedBalance:       32253125000,
 		},
 		{name: "all participated with all flags",
 			indices: []uint64{0, 1, 2, 3, 4, 5, 6, 7}, epochParticipation: []byte{0, 0, 0, 0, 0, 0, 0, 0}, participatedFlags: map[uint8]bool{
@@ -487,7 +487,7 @@ func TestSetParticipationAndRewardProposer(t *testing.T) {
 				headFlagIndex:   true,
 			},
 			wantedParticipation: []byte{7, 7, 7, 7, 7, 7, 7, 7},
-			wantedBalance:       32000243925,
+			wantedBalance:       32976339285,
 		},
 	}
 	for _, test := range tests {
@@ -564,7 +564,7 @@ func TestEpochParticipation(t *testing.T) {
 				targetFlagIndex: true,
 				headFlagIndex:   false,
 			},
-			wantedNumerator:          40473600,
+			wantedNumerator:          162000000000,
 			wantedEpochParticipation: []byte{3, 3, 3, 3, 0, 0, 0, 0},
 		},
 		{name: "all participated with some flags",
@@ -573,7 +573,7 @@ func TestEpochParticipation(t *testing.T) {
 				targetFlagIndex: false,
 				headFlagIndex:   false,
 			},
-			wantedNumerator:          28331520,
+			wantedNumerator:          113400000000,
 			wantedEpochParticipation: []byte{1, 1, 1, 1, 1, 1, 1, 1},
 		},
 		{name: "all participated with all flags",
@@ -582,7 +582,7 @@ func TestEpochParticipation(t *testing.T) {
 				targetFlagIndex: true,
 				headFlagIndex:   true,
 			},
-			wantedNumerator:          109278720,
+			wantedNumerator:          437400000000,
 			wantedEpochParticipation: []byte{7, 7, 7, 7, 7, 7, 7, 7},
 		},
 	}
