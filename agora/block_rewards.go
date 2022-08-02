@@ -4,7 +4,7 @@ import (
 	"math/big"
 	"github.com/pkg/errors"
 
-	"github.com/prysmaticlabs/prysm/config/params"
+	"github.com/prysmaticlabs/prysm/v3/config/params"
 )
 
 // Global constants (start with a capital letter)
