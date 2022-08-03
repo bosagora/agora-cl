@@ -26,10 +26,10 @@ func TestAllocatedYearlyValidatorRewards(t *testing.T) {
 }
 
 func TestAllocatedValidatorRewardsPerEpoch(t *testing.T) {
-	cfg := RewardConfig {
-		SlotsPerEpoch: 32,
-		SecondsPerSlot: 14,
-		GweiPerBoa: 1000000000,
+	cfg := RewardConfig{
+		SlotsPerEpoch:             32,
+		SecondsPerSlot:            14,
+		GweiPerBoa:                1000000000,
 		EffectiveBalanceIncrement: 1000000000000,
 	}
 
@@ -53,18 +53,18 @@ func TestAllocatedValidatorRewardsPerEpoch(t *testing.T) {
 }
 
 func TestValidatorRewardPerEpoch(t *testing.T) {
-	cfg := RewardConfig {
-		SlotsPerEpoch: 32,
-		SecondsPerSlot: 14,
-		GweiPerBoa: 1000000000,
+	cfg := RewardConfig{
+		SlotsPerEpoch:             32,
+		SecondsPerSlot:            14,
+		GweiPerBoa:                1000000000,
 		EffectiveBalanceIncrement: 1000000000000,
 	}
 
 	tests := []struct {
-		name                string
-		totalBalance		uint64
-		effectiveBalance	uint64
-		want                uint64
+		name             string
+		totalBalance     uint64
+		effectiveBalance uint64
+		want             uint64
 	}{
 		{"all", cfg.EffectiveBalanceIncrement, cfg.EffectiveBalanceIncrement, 2_419_200_000_000},
 		{"half", 2 * cfg.EffectiveBalanceIncrement, cfg.EffectiveBalanceIncrement, 1_209_600_000_000},
