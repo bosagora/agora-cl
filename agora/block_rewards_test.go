@@ -74,7 +74,7 @@ func TestValidatorRewardPerEpoch(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := ValidatorRewardPerEpoch(1, tt.totalBalance, tt.effectiveBalance, cfg); got != tt.want {
+			if got, err := ValidatorRewardPerEpoch(1, tt.totalBalance, tt.effectiveBalance, cfg); got != tt.want || err != nil {
 				t.Errorf("AllocatedValidatorRewardsPerEpoch() test for '%s' got %v but wanted %v", tt.name, got, tt.want)
 			}
 		})
