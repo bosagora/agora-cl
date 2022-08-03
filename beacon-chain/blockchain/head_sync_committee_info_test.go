@@ -52,6 +52,8 @@ func TestService_HeadDomainFetcher_Errors(t *testing.T) {
 }
 
 func TestService_HeadSyncCommitteeIndices(t *testing.T) {
+	bkpMaxEffectiveBalance := params.BeaconConfig().MaxEffectiveBalance
+	params.BeaconConfig().MaxEffectiveBalance = 40_000 * params.BeaconConfig().GweiPerEth
 	s, _ := util.DeterministicGenesisStateAltair(t, params.BeaconConfig().TargetCommitteeSize)
 	c := &Service{}
 	c.head = &head{state: s}
@@ -72,9 +74,12 @@ func TestService_HeadSyncCommitteeIndices(t *testing.T) {
 	b, err = c.HeadSyncCommitteeIndices(context.Background(), 0, types.Slot(slot))
 	require.NoError(t, err)
 	require.DeepNotEqual(t, a, b)
+	params.BeaconConfig().MaxEffectiveBalance = bkpMaxEffectiveBalance
 }
 
 func TestService_headCurrentSyncCommitteeIndices(t *testing.T) {
+	bkpMaxEffectiveBalance := params.BeaconConfig().MaxEffectiveBalance
+	params.BeaconConfig().MaxEffectiveBalance = 40_000 * params.BeaconConfig().GweiPerEth
 	s, _ := util.DeterministicGenesisStateAltair(t, params.BeaconConfig().TargetCommitteeSize)
 	c := &Service{}
 	c.head = &head{state: s}
@@ -86,6 +91,7 @@ func TestService_headCurrentSyncCommitteeIndices(t *testing.T) {
 
 	// NextSyncCommittee becomes CurrentSyncCommittee so it should be empty by default.
 	require.Equal(t, 0, len(indices))
+	params.BeaconConfig().MaxEffectiveBalance = bkpMaxEffectiveBalance
 }
 
 func TestService_headNextSyncCommitteeIndices(t *testing.T) {
