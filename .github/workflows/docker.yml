@@ -31,6 +31,9 @@ jobs:
 
     - name: Build and push beacon-chain
       run: bazel run //cmd/beacon-chain:push_images --config=release
-    
+
     - name: Build and push validator
       run: bazel run //cmd/validator:push_images --config=release
+
+    - name: Build and push bootnode
+      run: bazel run //tools/bootnode:push_images --config=release
