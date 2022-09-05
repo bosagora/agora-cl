@@ -299,11 +299,10 @@ func attestationDelta(
 
 	cfg := params.BeaconConfig()
 	increment := cfg.EffectiveBalanceIncrement
-	effectiveBalance := val.CurrentEpochEffectiveBalance
 	agoraConfig := agora.MakeAgoraRewardConfig(cfg)
 
 	// safe to ignore err, bal.ActiveCurrentEpoch is checked to be non-zero
-	baseReward, err := agora.ValidatorRewardPerEpoch(secondsSinceGenesis, bal.ActiveCurrentEpoch, cfg.EffectiveBalanceIncrement, agoraConfig)
+	baseReward, err := agora.ValidatorRewardPerEpoch(secondsSinceGenesis, bal.ActiveCurrentEpoch, val.CurrentEpochEffectiveBalance, agoraConfig)
 	activeIncrement := bal.ActiveCurrentEpoch / increment
 
 	weightDenominator := cfg.WeightDenominator
