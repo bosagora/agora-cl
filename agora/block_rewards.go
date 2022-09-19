@@ -14,7 +14,7 @@ const (
 
 // Package scope constants
 const (
-	firstYearValRewards uint64 = 27 * (YearOfSecs / 5)
+	firstYearValRewards uint64 = 7 * (YearOfSecs / 5)
 )
 
 type RewardConfig struct {
@@ -26,9 +26,8 @@ type RewardConfig struct {
 
 // Agora rewards as defined in the white paper (in Gwei)
 //
-// Allocated Validator rewards are 27 coins per 5 seconds for first year
-//
-//	then reduced by 6.31% every year
+// Allocated Validator rewards are 7 coins per 5 seconds for first year
+//   then reduced by 1.347% every year
 func AllocatedYearlyValidatorRewards(secondsSinceGenesis uint64, GweiPerBoa uint64) uint64 {
 	yearsSinceGenesis := secondsSinceGenesis / YearOfSecs
 
@@ -37,8 +36,8 @@ func AllocatedYearlyValidatorRewards(secondsSinceGenesis uint64, GweiPerBoa uint
 	yearlyReward := new(big.Int).Mul(bigGweiPerBoa, bigfirstYearValRewards)
 
 	for y := yearsSinceGenesis; y > 0; y-- {
-		yearlyReward.Mul(yearlyReward, big.NewInt(9_369))
-		yearlyReward.Div(yearlyReward, big.NewInt(10_000))
+		yearlyReward.Mul(yearlyReward, big.NewInt(98_653))
+		yearlyReward.Div(yearlyReward, big.NewInt(100_000))
 	}
 	return yearlyReward.Uint64()
 }
