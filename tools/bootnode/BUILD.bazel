@@ -51,7 +51,7 @@ go_binary(
 container_bundle(
     name = "image_bundle",
     images = {
-        "bosagora/prysm-bootnode:agora": ":image",
+        "bosagora/agora-cl-bootnode:agora": ":image",
     },
     tags = ["manual"],
 )

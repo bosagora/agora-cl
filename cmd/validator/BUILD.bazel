@@ -61,7 +61,7 @@ container_image(
 container_bundle(
     name = "image_bundle",
     images = {
-        "bosagora/prysm-validator:agora": ":image_with_creation_time",
+        "bosagora/agora-cl-validator:agora": ":image_with_creation_time",
     },
     tags = ["manual"],
     visibility = ["//validator:__pkg__"],
