@@ -132,6 +132,13 @@ func New(cliCtx *cli.Context, opts ...Option) (*BeaconNode, error) {
 	if err := configureChainConfig(cliCtx); err != nil {
 		return nil, err
 	}
+	if params.BeaconConfig().DepositChainID == 2151 {
+		log.Warn("Agora-cl configured for AGORA MAINNET")
+	} else if params.BeaconConfig().DepositChainID == 2019 {
+		log.Warn("Agora-cl configured for AGORA TESTNET")
+	} else {
+		log.Warnf("Agora-cl configured for AGORA network with chain id %d", params.BeaconConfig().DepositChainID)
+	}
 	if err := configureHistoricalSlasher(cliCtx); err != nil {
 		return nil, err
 	}
