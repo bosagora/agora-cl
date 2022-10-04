@@ -134,6 +134,9 @@ func (s *Service) handleExchangeConfigurationError(err error) {
 
 // Logs the terminal total difficulty status.
 func (s *Service) logTtdStatus(ctx context.Context, ttd *uint256.Int) (bool, error) {
+	if !s.chainStartData.Chainstarted {
+		return false, nil
+	}
 	latest, err := s.LatestExecutionBlock(ctx)
 	switch {
 	case errors.Is(err, hexutil.ErrEmptyString):
