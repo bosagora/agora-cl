@@ -153,9 +153,6 @@ func (s *Service) logTtdStatus(ctx context.Context, ttd *uint256.Int) (bool, err
 	if latestTtd.Cmp(ttd.ToBig()) >= 0 {
 		return true, nil
 	}
-	if !s.chainStartData.Chainstarted {
-		return
-	}
 	log.WithFields(logrus.Fields{
 		"latestDifficulty":   latestTtd.String(),
 		"terminalDifficulty": ttd.ToBig().String(),
