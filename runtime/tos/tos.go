@@ -18,10 +18,10 @@ const (
 	acceptTosPromptText = `
 Prysmatic Labs Terms of Use
 
-By downloading, accessing or using the Prysm implementation (“Prysm”), you (referenced herein
+By downloading, accessing or using the Agora-cl implementation (“Agora-cl”), you (referenced herein
 as “you” or the “user”) certify that you have read and agreed to the terms and conditions below.
 
-TERMS AND CONDITIONS: https://github.com/zeroone-boa/prysm/blob/agora/TERMS_OF_SERVICE.md
+TERMS AND CONDITIONS: https://github.com/bosagora/agora-cl/blob/agora/TERMS_OF_SERVICE.md
 
 
 Type "accept" to accept this terms and conditions [accept/decline]:`
