@@ -4,7 +4,7 @@ Note: The latest and most up to date documenation can be found on our [docs port
 
 Excited by our work and want to get involved in building out our sharding releases? Or maybe you haven't learned as much about the Ethereum protocol but are a savvy developer?
 
-You can explore our [Open Issues](https://github.com/zeroone-boa/agora-cl/issues) in-the works for our different releases. Feel free to fork our repo and start creating PR’s after assigning yourself to an issue of interest. We are always chatting on [Telegram](https://t.me/bosagora_eng) drop us a line there if you want to get more involved or have any questions on our implementation!
+You can explore our [Open Issues](https://github.com/bosagora/agora-cl/issues) in-the works for our different releases. Feel free to fork our repo and start creating PR’s after assigning yourself to an issue of interest. We are always chatting on [Telegram](https://t.me/bosagora_eng) drop us a line there if you want to get more involved or have any questions on our implementation!
 
 ## Contribution Steps
 
@@ -12,15 +12,15 @@ You can explore our [Open Issues](https://github.com/zeroone-boa/agora-cl/issues
 
 **2. Fork the Agora-cl repo.**
 
-Sign in to your Github account or create a new account if you do not have one already. Then navigate your browser to https://github.com/zeroone-boa/agora-cl. In the upper right hand corner of the page, click “fork”. This will create a copy of the Agora-cl repo in your account.
+Sign in to your Github account or create a new account if you do not have one already. Then navigate your browser to https://github.com/bosagora/agora-cl. In the upper right hand corner of the page, click “fork”. This will create a copy of the Agora-cl repo in your account.
 
 **3. Create a local clone of Agora-cl.**
 
 ```
-$ mkdir -p $GOPATH/src/github.com/zeroone-boa
+$ mkdir -p $GOPATH/src/github.com/bosagora
 $ cd $GOPATH/src/github.com/bosagora
-$ git clone https://github.com/zeroone-boa/agora-cl.git
-$ cd $GOPATH/src/github.com/zeroone-boa/agora-cl
+$ git clone https://github.com/bosagora/agora-cl.git
+$ cd $GOPATH/src/github.com/bosagora/agora-cl
 ```
 
 **4. Link your local clone to the fork on your Github repo.**
@@ -32,13 +32,13 @@ $ git remote add myagora-clrepo https://github.com/<your_github_user_name>/agora
 **5. Link your local clone to the Bosagora repo so that you can easily fetch future changes to the Bosagora repo.**
 
 ```
-$ git remote add agora-cl https://github.com/zeroone-boa/agora-cl.git
+$ git remote add agora-cl https://github.com/bosagora/agora-cl.git
 $ git remote -v (you should see myrepo and agora-cl in the list of remotes)
 ```
 
 **6. Find an issue to work on.**
 
-Check out open issues at https://github.com/zeroone-boa/agora-cl/issues and pick one. Leave a comment to let the development team know that you would like to work on it. Or examine the code for areas that can be improved and leave a comment to the development team to ask if they would like you to work on it.
+Check out open issues at https://github.com/bosagora/agora-cl/issues and pick one. Leave a comment to let the development team know that you would like to work on it. Or examine the code for areas that can be improved and leave a comment to the development team to ask if they would like you to work on it.
 
 **7. Create a local branch with a name that clearly identifies what you will be working on.**
 
@@ -123,7 +123,7 @@ Navigate to your fork of the repo on Github. On the upper left where the current
 
 **16. Create a pull request.**
 
-Navigate your browser to https://github.com/zeroone-boa/agora-cl and click on the new pull request button. In the “base” box on the left, leave the default selection “base master”, the branch that you want your changes to be applied to. In the “compare” box on the right, select feature-in-progress-branch, the branch containing the changes you want to apply. You will then be asked to answer a few questions about your pull request. After you complete the questionnaire, the pull request will appear in the list of pull requests at https://github.com/zeroone-boa/agora-cl/pulls.
+Navigate your browser to https://github.com/bosagora/agora-cl and click on the new pull request button. In the “base” box on the left, leave the default selection “base master”, the branch that you want your changes to be applied to. In the “compare” box on the right, select feature-in-progress-branch, the branch containing the changes you want to apply. You will then be asked to answer a few questions about your pull request. After you complete the questionnaire, the pull request will appear in the list of pull requests at https://github.com/bosagora/agora-cl/pulls.
 
 **17. Respond to comments by Core Contributors.**
 

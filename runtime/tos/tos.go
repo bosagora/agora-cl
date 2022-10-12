@@ -27,7 +27,7 @@ TERMS AND CONDITIONS: https://github.com/bosagora/agora-cl/blob/agora/TERMS_OF_S
 Type "accept" to accept this terms and conditions [accept/decline]:`
 	acceptTosPromptErrText = `could not scan text input, if you are trying to run in non-interactive environment, you
 can use the --accept-terms-of-use flag after reading the terms and conditions here:
-https://github.com/zeroone-boa/prysm/blob/agora/TERMS_OF_SERVICE.md`
+https://github.com/bosagora/agora-cl/blob/agora/TERMS_OF_SERVICE.md`
 )
 
 var (
