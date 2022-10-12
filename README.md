@@ -25,7 +25,7 @@ Bosagora maintains the latest release branch which is currently rebased on the u
 * [agora_v4.0.2](https://github.com/bosagora/agora-cl/tree/agora_v4.0.2):
 
 ### Guide
-Want to get involved? Check out our [Contribution Guide](https://github.com/bosagora/agora-cl/contribution-guidelines/) to learn more!
+Want to get involved? Check out our [Contribution Guide](https://agora-cl-docs.bosagora.org/docs/contribute/contribution-guidelines) to learn more!
 
 ## License
 
