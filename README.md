@@ -1,5 +1,7 @@
 # Agora-cl: A forked version of the Ethereum Consensus Implementation Written in Go
 
+This repository was forked from [prysmaticlabs/prysm](https://github.com/prysmaticlabs/prysm)
+
 ### Getting Started
 
 A detailed set of installation and usage instructions as well as breakdowns of each individual component are available in the [official documentation portal](https://agora-cl-docs.bosagora.org). If you still have questions, feel free to stop by our [Telegram](https://t.me/bosagora_eng).
