@@ -201,7 +201,7 @@ func FilterExitAccountsFromUserInput(
 	promptDescription := "Withdrawing funds is not possible in Phase 0 of the system. " +
 		"Please navigate to the following website and make sure you understand the current implications " +
 		"of a voluntary exit before making the final decision:"
-	promptURL := au.Blue("https://docs.prylabs.network/docs/wallet/exiting-a-validator/#withdrawal-delay-warning")
+	promptURL := au.Blue("https://agora-cl-docs.bosagora.org/docs/wallet/exiting-a-validator/#withdrawal-delay-warning")
 	promptQuestion := "If you still want to continue with the voluntary exit, please input a phrase found at the end " +
 		"of the page from the above URL"
 	promptText := fmt.Sprintf("%s\n%s\n%s\n%s", promptHeader, promptDescription, promptURL, promptQuestion)
