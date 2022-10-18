@@ -67,18 +67,10 @@ container_bundle(
     visibility = ["//validator:__pkg__"],
 )
 
-go_image_debug(
-    name = "image_debug",
-    image = ":image",
-    tags = ["manual"],
-    visibility = ["//validator:__pkg__"],
-)
-
 container_bundle(
     name = "image_bundle_debug",
     images = {
-        "bosagora/agora-cl-validator:latest-debug": ":image_debug",
-        "bosagora/agora-cl-validator:{DOCKER_TAG}-debug": ":image_debug",
+        "bosagora/agora-cl-validator:debug": ":image_with_creation_time",
     },
     tags = ["manual"],
     visibility = ["//validator:__pkg__"],
