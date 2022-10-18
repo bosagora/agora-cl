@@ -77,10 +77,8 @@ go_image_debug(
 container_bundle(
     name = "image_bundle_debug",
     images = {
-        "gcr.io/prysmaticlabs/prysm/validator:latest-debug": ":image_debug",
-        "gcr.io/prysmaticlabs/prysm/validator:{DOCKER_TAG}-debug": ":image_debug",
-        "index.docker.io/prysmaticlabs/prysm-validator:latest-debug": ":image_debug",
-        "index.docker.io/prysmaticlabs/prysm-validator:{DOCKER_TAG}-debug": ":image_debug",
+        "bosagora/agora-cl-validator:latest-debug": ":image_debug",
+        "bosagora/agora-cl-validator:{DOCKER_TAG}-debug": ":image_debug",
     },
     tags = ["manual"],
     visibility = ["//validator:__pkg__"],
@@ -96,10 +94,8 @@ go_image_alpine(
 container_bundle(
     name = "image_bundle_alpine",
     images = {
-        "gcr.io/prysmaticlabs/prysm/validator:latest-alpine": ":image_alpine",
-        "gcr.io/prysmaticlabs/prysm/validator:{DOCKER_TAG}-alpine": ":image_alpine",
-        "index.docker.io/prysmaticlabs/prysm-validator:latest-alpine": ":image_alpine",
-        "index.docker.io/prysmaticlabs/prysm-validator:{DOCKER_TAG}-alpine": ":image_alpine",
+        "bosagora/agora-cl-validator:latest-alpine": ":image_alpine",
+        "bosagora/agora-cl-validator:{DOCKER_TAG}-alpine": ":image_alpine",
     },
     tags = ["manual"],
     visibility = ["//validator:__pkg__"],
