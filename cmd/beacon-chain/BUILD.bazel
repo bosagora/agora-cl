@@ -71,18 +71,10 @@ container_bundle(
     visibility = ["//beacon-chain:__pkg__"],
 )
 
-go_image_debug(
-    name = "image_debug",
-    image = ":image",
-    tags = ["manual"],
-    visibility = ["//beacon-chain:__pkg__"],
-)
-
 container_bundle(
     name = "image_bundle_debug",
     images = {
-        "bosagora/agora-cl-node:latest-debug": ":image_debug",
-        "bosagora/agora-cl-node:{DOCKER_TAG}-debug": ":image_debug",
+        "bosagora/agora-cl-node:debug": ":image_with_creation_time",
     },
     tags = ["manual"],
     visibility = ["//beacon-chain:__pkg__"],
