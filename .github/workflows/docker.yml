@@ -2,7 +2,7 @@ name: docker-agora
 
 on:
   push:
-    branches: [ "agora_v3.1.1" ]
+    branches: [ "agora" ]
 
 jobs:
 
