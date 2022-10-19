@@ -17,7 +17,7 @@ jobs:
       run: sudo apt-get update && sudo apt-get install -y cmake git libssl-dev libgmp-dev libtinfo5 libprotobuf-dev
 
     - name: Login to DockerHub
-      uses: docker/login-action@v1
+      uses: docker/login-action@main
       id: login
       # If the user set up those variable, it's upstream or (s)he wants the push to happen
       # Otherwise, it might just be someone pushing to their fork, in which case we still
@@ -27,7 +27,7 @@ jobs:
         username: ${{ secrets.DHUB_USER }}
         password: ${{ secrets.DHUB_TOKEN }}
 
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@main
 
     - name: Build and push beacon-chain
       run: bazel run //cmd/beacon-chain:push_images --config=release
