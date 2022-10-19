@@ -17,7 +17,7 @@ jobs:
       run: sudo apt-get update && sudo apt-get install -y cmake git libssl-dev libgmp-dev libtinfo5 libprotobuf-dev
 
     - name: Login to DockerHub
-      uses: docker/login-action@main
+      uses: docker/login-action@master
       id: login
       # If the user set up those variable, it's upstream or (s)he wants the push to happen
       # Otherwise, it might just be someone pushing to their fork, in which case we still
