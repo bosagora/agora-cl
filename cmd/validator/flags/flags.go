@@ -15,7 +15,7 @@ import (
 
 const (
 	// WalletDefaultDirName for accounts.
-	WalletDefaultDirName = "prysm-wallet-v2"
+	WalletDefaultDirName = "agora-wallet-v2"
 	// DefaultGatewayHost for the validator client.
 	DefaultGatewayHost = "127.0.0.1"
 )
@@ -135,7 +135,7 @@ var (
 	// WalletDirFlag defines the path to a wallet directory for Prysm accounts.
 	WalletDirFlag = &cli.StringFlag{
 		Name:  "wallet-dir",
-		Usage: "Path to a wallet directory on-disk for Prysm validator accounts",
+		Usage: "Path to a wallet directory on-disk for Agora validator accounts",
 		Value: filepath.Join(DefaultValidatorDir(), WalletDefaultDirName),
 	}
 	// AccountPasswordFileFlag is path to a file containing a password for a validator account.
