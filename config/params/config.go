@@ -21,6 +21,9 @@ type BeaconChainConfig struct {
 	DepositContractTreeDepth uint64      `yaml:"DEPOSIT_CONTRACT_TREE_DEPTH"` // DepositContractTreeDepth depth of the Merkle trie of deposits in the validator deposit contract on the PoW chain.
 	JustificationBitsLength  uint64      `yaml:"JUSTIFICATION_BITS_LENGTH"`   // JustificationBitsLength defines number of epochs to track when implementing k-finality in Casper FFG.
 
+	// Network urls
+	AgoraScanUrl string `yaml:"AGORASCAN_URL" spec:"https://agorascan.io"` // URL for the AgoraScan Consensus Layer explorer
+
 	// Misc constants.
 	PresetBase                     string `yaml:"PRESET_BASE" spec:"true"`                        // PresetBase represents the underlying spec preset this config is based on.
 	ConfigName                     string `yaml:"CONFIG_NAME" spec:"true"`                        // ConfigName for allowing an easy human-readable way of knowing what chain is being used.
