@@ -22,7 +22,7 @@ var (
 	Mainnet = &cli.BoolFlag{
 		Value: true,
 		Name:  "mainnet",
-		Usage: "Run on Ethereum Beacon Chain Main Net. This is the default and can be omitted.",
+		Usage: "Run on Agora Consensus Layer Mainnet. This is the default and can be omitted.",
 	}
 	devModeFlag = &cli.BoolFlag{
 		Name:  "dev",
@@ -126,8 +126,6 @@ var devModeFlags = []cli.Flag{
 var ValidatorFlags = append(deprecatedFlags, []cli.Flag{
 	writeWalletPasswordOnWebOnboarding,
 	enableExternalSlasherProtectionFlag,
-	PraterTestnet,
-	SepoliaTestnet,
 	Mainnet,
 	dynamicKeyReloadDebounceInterval,
 	attestTimely,

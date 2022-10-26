@@ -126,11 +126,7 @@ func displayExitInfo(rawExitedKeys [][]byte, trimmedExitedKeys []string) {
 		urlFormattedPubKeys := make([]string, len(rawExitedKeys))
 		for i, key := range rawExitedKeys {
 			var baseUrl string
-			if params.BeaconConfig().ConfigName == params.PraterName || params.BeaconConfig().ConfigName == params.GoerliName {
-				baseUrl = "https://goerli.beaconcha.in/validator/"
-			} else {
-				baseUrl = "https://beaconcha.in/validator/"
-			}
+			baseUrl = params.BeaconConfig().AgoraScanUrl + "/validator/"
 			// Remove '0x' prefix
 			urlFormattedPubKeys[i] = baseUrl + hexutil.Encode(key)[2:]
 		}

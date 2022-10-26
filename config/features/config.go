@@ -109,29 +109,14 @@ func InitWithReset(c *Flags) func() {
 
 // configureTestnet sets the config according to specified testnet flag
 func configureTestnet(ctx *cli.Context) error {
-	if ctx.Bool(PraterTestnet.Name) {
-		log.Warn("Running on the Prater Testnet")
-		if err := params.SetActive(params.PraterConfig().Copy()); err != nil {
+	if ctx.IsSet(cmd.ChainConfigFileFlag.Name) {
+		log.Warn("Running Agora-cl (Agora Consensus Layer) client using chain configuration yaml file")
+		chainConfigFileName := ctx.String(cmd.ChainConfigFileFlag.Name)
+		if err := params.LoadChainConfigFile(chainConfigFileName, nil); err != nil {
 			return err
 		}
-		applyPraterFeatureFlags(ctx)
-		params.UsePraterNetworkConfig()
-	} else if ctx.Bool(SepoliaTestnet.Name) {
-		log.Warn("Running on the Sepolia Beacon Chain Testnet")
-		if err := params.SetActive(params.SepoliaConfig().Copy()); err != nil {
-			return err
-		}
-		applySepoliaFeatureFlags(ctx)
-		params.UseSepoliaNetworkConfig()
 	} else {
-		if ctx.IsSet(cmd.ChainConfigFileFlag.Name) {
-			log.Warn("Running Agora-cl (Agora Consensus Layer) client using chain configuration yaml file")
-		} else {
-			log.Warn("Running on Ethereum Mainnet")
-		}
-		if err := params.SetActive(params.MainnetConfig().Copy()); err != nil {
-			return err
-		}
+		log.Fatal("Chain configuration yaml file must be provided (--chain-config-file)")
 	}
 	return nil
 }

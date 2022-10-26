@@ -13,11 +13,11 @@ import (
 
 var log = logrus.WithField("prefix", "accounts")
 
-// Commands for managing Prysm validator accounts.
+// Commands for managing Agora validator accounts.
 var Commands = &cli.Command{
 	Name:     "accounts",
 	Category: "accounts",
-	Usage:    "defines commands for interacting with Ethereum validator accounts",
+	Usage:    "defines commands for interacting with Agora validator accounts",
 	Subcommands: []*cli.Command{
 		{
 			Name:        "delete",
@@ -26,9 +26,7 @@ var Commands = &cli.Command{
 				flags.WalletDirFlag,
 				flags.WalletPasswordFileFlag,
 				flags.DeletePublicKeysFlag,
-				features.Mainnet,
-				features.PraterTestnet,
-				features.SepoliaTestnet,
+				cmd.ChainConfigFileFlag,
 				cmd.AcceptTosFlag,
 			}),
 			Before: func(cliCtx *cli.Context) error {
@@ -62,9 +60,7 @@ var Commands = &cli.Command{
 				flags.GrpcHeadersFlag,
 				flags.GrpcRetriesFlag,
 				flags.GrpcRetryDelayFlag,
-				features.Mainnet,
-				features.PraterTestnet,
-				features.SepoliaTestnet,
+				cmd.ChainConfigFileFlag,
 				cmd.AcceptTosFlag,
 			}),
 			Before: func(cliCtx *cli.Context) error {
@@ -95,9 +91,7 @@ var Commands = &cli.Command{
 				flags.BackupDirFlag,
 				flags.BackupPublicKeysFlag,
 				flags.BackupPasswordFile,
-				features.Mainnet,
-				features.PraterTestnet,
-				features.SepoliaTestnet,
+				cmd.ChainConfigFileFlag,
 				cmd.AcceptTosFlag,
 			}),
 			Before: func(cliCtx *cli.Context) error {
@@ -125,9 +119,7 @@ var Commands = &cli.Command{
 				flags.WalletPasswordFileFlag,
 				flags.AccountPasswordFileFlag,
 				flags.ImportPrivateKeyFileFlag,
-				features.Mainnet,
-				features.PraterTestnet,
-				features.SepoliaTestnet,
+				cmd.ChainConfigFileFlag,
 				cmd.AcceptTosFlag,
 			}),
 			Before: func(cliCtx *cli.Context) error {
@@ -166,9 +158,7 @@ var Commands = &cli.Command{
 				flags.GrpcRetryDelayFlag,
 				flags.ExitAllFlag,
 				flags.ForceExitFlag,
-				features.Mainnet,
-				features.PraterTestnet,
-				features.SepoliaTestnet,
+				cmd.ChainConfigFileFlag,
 				cmd.AcceptTosFlag,
 			}),
 			Before: func(cliCtx *cli.Context) error {
