@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
-	"github.com/prysmaticlabs/prysm/agora"	
+	"github.com/prysmaticlabs/prysm/v3/agora"
 	"github.com/prysmaticlabs/prysm/v3/beacon-chain/core/epoch/precompute"
 	"github.com/prysmaticlabs/prysm/v3/beacon-chain/core/helpers"
 	"github.com/prysmaticlabs/prysm/v3/beacon-chain/core/time"

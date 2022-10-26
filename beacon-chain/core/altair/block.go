@@ -3,8 +3,8 @@ package altair
 import (
 	"context"
 
-	"github.com/prysmaticlabs/prysm/agora"
 	"github.com/pkg/errors"
+	"github.com/prysmaticlabs/prysm/v3/agora"
 	"github.com/prysmaticlabs/prysm/v3/beacon-chain/core/helpers"
 	"github.com/prysmaticlabs/prysm/v3/beacon-chain/core/signing"
 	p2pType "github.com/prysmaticlabs/prysm/v3/beacon-chain/p2p/types"
