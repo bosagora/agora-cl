@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"path"
+	"github.com/prysmaticlabs/prysm/v4/config/params"
 	"testing"
 
 	"github.com/prysmaticlabs/prysm/v4/beacon-chain/rpc/apimiddleware"
@@ -19,10 +20,15 @@ import (
 )
 
 func TestDisplayExitInfo(t *testing.T) {
+	cfg := params.MainnetConfig().Copy()
+	cfg.AgoraScanUrl = "https://TEST"
+	cfg.ConfigName = "AGORA_TESTNET"
+	params.OverrideBeaconConfig(cfg)
+	params.SetActive(cfg)
 	logHook := test.NewGlobal()
 	key := []byte("0x123456")
 	displayExitInfo([][]byte{key}, []string{string(key)})
-	assert.LogsContain(t, logHook, "https://beaconcha.in/validator/3078313233343536")
+	assert.LogsContain(t, logHook, "https://TEST/validator/3078313233343536")
 }
 
 func TestDisplayExitInfo_NoKeys(t *testing.T) {
