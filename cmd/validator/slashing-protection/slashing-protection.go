@@ -21,10 +21,7 @@ var Commands = &cli.Command{
 			Flags: cmd.WrapFlags([]cli.Flag{
 				cmd.DataDirFlag,
 				flags.SlashingProtectionExportDirFlag,
-				features.Mainnet,
-				features.PraterTestnet,
-				features.RopstenTestnet,
-				features.SepoliaTestnet,
+				cmd.ChainConfigFileFlag,
 				cmd.AcceptTosFlag,
 			}),
 			Before: func(cliCtx *cli.Context) error {
@@ -49,10 +46,7 @@ var Commands = &cli.Command{
 			Flags: cmd.WrapFlags([]cli.Flag{
 				cmd.DataDirFlag,
 				flags.SlashingProtectionJSONFileFlag,
-				features.Mainnet,
-				features.PraterTestnet,
-				features.RopstenTestnet,
-				features.SepoliaTestnet,
+				cmd.ChainConfigFileFlag,
 				cmd.AcceptTosFlag,
 			}),
 			Before: func(cliCtx *cli.Context) error {

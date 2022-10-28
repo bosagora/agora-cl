@@ -12,11 +12,11 @@ import (
 
 var log = logrus.WithField("prefix", "wallet")
 
-// Commands for wallets for Prysm validators.
+// Commands for wallets for Agora validators.
 var Commands = &cli.Command{
 	Name:     "wallet",
 	Category: "wallet",
-	Usage:    "defines commands for interacting with Ethereum validator wallets",
+	Usage:    "defines commands for interacting with Agora validator wallets",
 	Subcommands: []*cli.Command{
 		{
 			Name: "create",
@@ -33,10 +33,7 @@ var Commands = &cli.Command{
 				flags.WalletPasswordFileFlag,
 				flags.Mnemonic25thWordFileFlag,
 				flags.SkipMnemonic25thWordCheckFlag,
-				features.Mainnet,
-				features.PraterTestnet,
-				features.RopstenTestnet,
-				features.SepoliaTestnet,
+				cmd.ChainConfigFileFlag,
 				cmd.AcceptTosFlag,
 			}),
 			Before: func(cliCtx *cli.Context) error {
@@ -66,10 +63,7 @@ var Commands = &cli.Command{
 				flags.RemoteSignerCertPathFlag,
 				flags.RemoteSignerKeyPathFlag,
 				flags.RemoteSignerCACertPathFlag,
-				features.Mainnet,
-				features.PraterTestnet,
-				features.RopstenTestnet,
-				features.SepoliaTestnet,
+				cmd.ChainConfigFileFlag,
 				cmd.AcceptTosFlag,
 			}),
 			Before: func(cliCtx *cli.Context) error {
@@ -98,10 +92,7 @@ var Commands = &cli.Command{
 				flags.NumAccountsFlag,
 				flags.Mnemonic25thWordFileFlag,
 				flags.SkipMnemonic25thWordCheckFlag,
-				features.Mainnet,
-				features.PraterTestnet,
-				features.RopstenTestnet,
-				features.SepoliaTestnet,
+				cmd.ChainConfigFileFlag,
 				cmd.AcceptTosFlag,
 			}),
 			Before: func(cliCtx *cli.Context) error {
