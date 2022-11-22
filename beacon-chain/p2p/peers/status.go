@@ -335,7 +335,7 @@ func (p *Status) IsBad(pid peer.ID) bool {
 
 // isBad is the lock-free version of IsBad.
 func (p *Status) isBad(pid peer.ID) bool {
-	return p.isfromBadIP(pid) || p.scorers.IsBadPeerNoLock(pid)
+	return p.scorers.IsBadPeerNoLock(pid)
 }
 
 // NextValidTime gets the earliest possible time it is to contact/dial
