@@ -37,3 +37,6 @@ jobs:
 
     - name: Build and push bootnode
       run: bazel run //tools/bootnode:push_images_debug --config=release
+
+    - name: Build and push ctl
+      run: bazel run //cmd/prysmctl:push_images_debug --config=release
