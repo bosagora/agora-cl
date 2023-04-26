@@ -2,6 +2,9 @@ package checkpointsync
 
 import (
 	"context"
+	"github.com/prysmaticlabs/prysm/v4/cmd"
+	"github.com/prysmaticlabs/prysm/v4/config/features"
+	"github.com/prysmaticlabs/prysm/v4/runtime/tos"
 	"os"
 	"time"
 
@@ -38,6 +41,16 @@ var downloadCmd = &cli.Command{
 			Destination: &downloadFlags.Timeout,
 			Value:       time.Minute * 4,
 		},
+		cmd.ChainConfigFileFlag,
+	},
+	Before: func(cliCtx *cli.Context) error {
+		if err := cmd.LoadFlagsFromConfig(cliCtx, cliCtx.Command.Flags); err != nil {
+			return err
+		}
+		if err := tos.VerifyTosAcceptedOrPrompt(cliCtx); err != nil {
+			return err
+		}
+		return features.ConfigureValidator(cliCtx)
 	},
 }
 
