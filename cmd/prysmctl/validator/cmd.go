@@ -8,6 +8,7 @@ import (
 	"github.com/prysmaticlabs/prysm/v4/cmd"
 	"github.com/prysmaticlabs/prysm/v4/cmd/validator/accounts"
 	"github.com/prysmaticlabs/prysm/v4/cmd/validator/flags"
+	"github.com/prysmaticlabs/prysm/v4/config/params"
 	"github.com/prysmaticlabs/prysm/v4/config/features"
 	"github.com/prysmaticlabs/prysm/v4/runtime/tos"
 	log "github.com/sirupsen/logrus"
@@ -53,10 +54,17 @@ var Commands = []*cli.Command{
 					PathFlag,
 					ConfirmFlag,
 					VerifyOnlyFlag,
+		            cmd.ChainConfigFileFlag,
 					cmd.ConfigFileFlag,
 					cmd.AcceptTosFlag,
 				},
 				Before: func(cliCtx *cli.Context) error {
+		            if cliCtx.IsSet(cmd.ChainConfigFileFlag.Name) {
+                        chainConfigFileName := cliCtx.String(cmd.ChainConfigFileFlag.Name)
+                        if err := params.LoadChainConfigFile(chainConfigFileName, nil); err != nil {
+                            return err
+                        }
+                    }
 					if err := cmd.LoadFlagsFromConfig(cliCtx, cliCtx.Command.Flags); err != nil {
 						return err
 					}
@@ -111,12 +119,17 @@ var Commands = []*cli.Command{
 					flags.ExitAllFlag,
 					flags.ForceExitFlag,
 					flags.VoluntaryExitJSONOutputPath,
-					features.Mainnet,
-					features.PraterTestnet,
-					features.SepoliaTestnet,
+		            cmd.ChainConfigFileFlag,
+					cmd.ConfigFileFlag,
 					cmd.AcceptTosFlag,
 				}),
 				Before: func(cliCtx *cli.Context) error {
+		            if cliCtx.IsSet(cmd.ChainConfigFileFlag.Name) {
+                        chainConfigFileName := cliCtx.String(cmd.ChainConfigFileFlag.Name)
+                        if err := params.LoadChainConfigFile(chainConfigFileName, nil); err != nil {
+                            return err
+                        }
+                    }
 					if err := cmd.LoadFlagsFromConfig(cliCtx, cliCtx.Command.Flags); err != nil {
 						return err
 					}
