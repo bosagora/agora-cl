@@ -72,7 +72,7 @@ container_bundle(
 
 docker_push(
     name = "push_images_debug",
-    bundle = ":image_bundle",
+    bundle = ":image_bundle_debug",
     tags = ["manual"],
 )
 
