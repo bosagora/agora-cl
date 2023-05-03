@@ -41,6 +41,10 @@ var (
 		Name:  "disable-grpc-connection-logging",
 		Usage: "Disables displaying logs for newly connected grpc clients",
 	}
+	disablePeerScorer = &cli.BoolFlag{
+		Name:  "disable-peer-scorer",
+		Usage: "Disables experimental P2P peer scorer",
+	}
 	disableReorgLateBlocks = &cli.BoolFlag{
 		Name:  "disable-reorg-late-blocks",
 		Usage: "Disables reorgs of late blocks",
@@ -155,6 +159,7 @@ var BeaconChainFlags = append(deprecatedBeaconFlags, append(deprecatedFlags, []c
 	PraterTestnet,
 	SepoliaTestnet,
 	Mainnet,
+	disablePeerScorer,
 	disableBroadcastSlashingFlag,
 	enableSlasherFlag,
 	enableHistoricalSpaceRepresentation,
