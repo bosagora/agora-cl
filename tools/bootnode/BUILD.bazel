@@ -51,7 +51,7 @@ go_binary(
 container_bundle(
     name = "image_bundle",
     images = {
-        "bosagora/agora-cl-bootnode:agora": ":image",
+        "bosagora/agora-cl-bootnode:{DOCKER_TAG}": ":image",
     },
     tags = ["manual"],
 )
@@ -65,7 +65,7 @@ docker_push(
 container_bundle(
     name = "image_bundle_debug",
     images = {
-        "bosagora/agora-cl-bootnode:debug": ":image",
+        "bosagora/agora-cl-bootnode:{DOCKER_TAG}-debug": ":image",
     },
     tags = ["manual"],
 )

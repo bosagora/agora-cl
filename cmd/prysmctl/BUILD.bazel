@@ -45,7 +45,7 @@ container_image(
 container_bundle(
     name = "image_bundle",
     images = {
-        "bosagora/agora-cl-ctl:agora": ":image_with_creation_time",
+        "bosagora/agora-cl-ctl:{DOCKER_TAG}": ":image_with_creation_time",
     },
     tags = ["manual"],
     visibility = ["//cmd/prysmctl:__pkg__"],
@@ -61,7 +61,7 @@ go_image_debug(
 container_bundle(
     name = "image_bundle_debug",
     images = {
-        "bosagora/agora-cl-ctl:debug": ":image_with_creation_time",
+        "bosagora/agora-cl-ctl:{DOCKER_TAG}-debug": ":image_with_creation_time",
     },
     tags = ["manual"],
     visibility = ["//cmd/prysmctl:__pkg__"],
