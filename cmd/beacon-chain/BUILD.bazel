@@ -65,7 +65,7 @@ container_image(
 container_bundle(
     name = "image_bundle",
     images = {
-        "bosagora/agora-cl-node:agora": ":image_with_creation_time",
+        "bosagora/agora-cl-node:{DOCKER_TAG}": ":image_with_creation_time",
     },
     tags = ["manual"],
     visibility = ["//beacon-chain:__pkg__"],
@@ -74,7 +74,7 @@ container_bundle(
 container_bundle(
     name = "image_bundle_debug",
     images = {
-        "bosagora/agora-cl-node:debug": ":image_with_creation_time",
+        "bosagora/agora-cl-node:{DOCKER_TAG}-debug": ":image_with_creation_time",
     },
     tags = ["manual"],
     visibility = ["//beacon-chain:__pkg__"],

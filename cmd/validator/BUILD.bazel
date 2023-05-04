@@ -60,7 +60,7 @@ container_image(
 container_bundle(
     name = "image_bundle",
     images = {
-        "bosagora/agora-cl-validator:agora": ":image_with_creation_time",
+        "bosagora/agora-cl-validator:{DOCKER_TAG}": ":image_with_creation_time",
     },
     tags = ["manual"],
     visibility = ["//validator:__pkg__"],
@@ -69,7 +69,7 @@ container_bundle(
 container_bundle(
     name = "image_bundle_debug",
     images = {
-        "bosagora/agora-cl-validator:debug": ":image_with_creation_time",
+        "bosagora/agora-cl-validator:{DOCKER_TAG}-debug": ":image_with_creation_time",
     },
     tags = ["manual"],
     visibility = ["//validator:__pkg__"],
